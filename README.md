@@ -6,18 +6,18 @@ application.html.slim
 = yield :crop_tool
 ```
 
-javascript
+CSS
 
 ```css
 #= require crop_tool/crop_tool
-#= require jcrop/jquery.Jcrop
+#= require crop_tool/jcrop/jquery.Jcrop
 ```
 
 javascript
 
 ```coffee
 #= require crop_tool/crop_tool
-#= require jcrop/jquery.Jcrop
+#= require crop_tool/jcrop/jquery.Jcrop
 
 $ ->
   CropTool.init()
