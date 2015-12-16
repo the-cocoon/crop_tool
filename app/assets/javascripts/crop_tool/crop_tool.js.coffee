@@ -11,13 +11,19 @@
     do @init_ajaxian_callback
 
   init_open_btn: ->
-    $('@crop-tool--open').on 'click', (e) =>
+    $(document).on 'click', '@crop-tool--open', (e) =>
       link    = $ e.currentTarget
       params  = link.data()
       @params = params if params
 
-      @show_canvas()
-      @create(params)
+      $('@crop-tool--jcrop-target').one "load", =>
+        log "IMG LOADED"
+        @show_canvas()
+        @create(params)
+
+      $('@crop-tool--jcrop-target, @crop-tool--preview')
+        .removeAttr('src')
+        .attr 'src', @params.source
 
   finish: ->
     do @destroy
@@ -109,10 +115,13 @@
     holder  = $('@crop-tool--source-image')
     src_img = $('@crop-tool--jcrop-target')
 
-    width = @dec holder.css 'width'
-    src_img.css { width: width }
+    h_width = @dec holder.css('width')
+    src_img.css { width: h_width }
 
-    src_img_height = @dec src_img.css 'height'
+    w_scale = src_img.width()/src_img[0].naturalWidth
+    src_img_height = @dec src_img[0].naturalHeight * w_scale
+
+    src_img.css { height: src_img_height }
     holder.css { height: src_img_height }
 
   # set_original_image_size_info: ->
