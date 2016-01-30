@@ -4,14 +4,17 @@
 
   # INIT
   init: ->
-    @params = {}
-    do @init_open_btn
-    do @init_close_btn
-    do @init_submit
-    do @init_ajaxian_callback
+    @doc = $ document
+
+    @inited ||= do =>
+      @params = {}
+      do @init_open_btn
+      do @init_close_btn
+      do @init_submit
+      do @init_ajaxian_callback
 
   init_open_btn: ->
-    $(document).on 'click', '@crop-tool--open', (e) =>
+    @doc.on 'click', '@crop-tool--open', (e) =>
       link    = $ e.currentTarget
       params  = link.data()
       @params = params if params
@@ -30,10 +33,10 @@
     do @hide_canvas
 
   init_close_btn: ->
-    $('@crop-tool--close').on 'click', -> CropTool.finish()
+    @doc.on 'click', '@crop-tool--close', -> CropTool.finish()
 
   init_submit: ->
-    $('@crop-tool--submit').on 'click', =>
+    @doc.on 'click', '@crop-tool--submit', =>
       form = $('@crop-tool--form')
 
       x = $('@crop-tool--x', form).val()
@@ -49,7 +52,7 @@
       false
 
   init_ajaxian_callback: ->
-    $('@crop-tool--form').on 'ajax:success', (e, data, status, xhr) =>
+    @doc.on 'ajax:success', '@crop-tool--form', (e, data, status, xhr) =>
       callback = null
       fn_chain = @params.callbackHandler.split '.'
 
@@ -154,6 +157,7 @@
   create: ->
     # do @set_original_image_size_info
     # do @set_final_size_info
+    log "CROP WARN! API ALREADY DEFINED" if @api
     do @set_canvas_dimensions
     do @init_crop_form
     @init_jcrop @
@@ -203,8 +207,8 @@
     canvas = $('@crop-tool--canvas')
 
     canvas.css
-      width:  $(document).width()
-      height: $(document).height()
+      width:  @doc.width()
+      height: @doc.height()
 
     canvas.fadeIn()
 
