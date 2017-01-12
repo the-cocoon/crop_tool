@@ -1,7 +1,7 @@
 .crop-tool--canvas@crop-tool--canvas(style='display:none')
   .crop-tool--body
     .crop-tool--header
-      = link_to "Закрыть", '#', class: 'ptz--btn crop-tool--close', data: { role: 'crop-tool--close' }
+      = link_to "Закрыть", '#', class: 'ptz_btn crop-tool--close', data: { role: 'crop-tool--close' }
 
     .crop-tool--images
       .crop-tool--source-image@crop-tool--source-image
@@ -11,7 +11,7 @@
         img@crop-tool--preview(src='')
 
     .actions
-      = link_to "Обрезать", '#', class: 'ptz--btn ', data: { role: 'crop-tool--submit' }
+      = link_to "Обрезать", '#', class: 'ptz_btn ', data: { role: 'crop-tool--submit' }
 
     = form_tag '#', data: { role: 'crop-tool--form' }, method: :patch, remote: true, style: 'display:none' do
       = text_field_tag 'crop[img_w]', '', data: { role: 'crop-tool--img-w' }, autocomplete: :off
